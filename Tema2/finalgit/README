@@ -1,0 +1,23 @@
+Oprea Mihail 334CC Tema2
+
+    Mie imi trec testele pana la 8, dupa care nu se mai termina, trebuind dupa sa dau ctrl c ca sa trec de ultimele 2 pt. ami afisa punctajul pe checker pe pc-ul meu, lucru ce inseamna ca pe cel
+automat de pe moodle no o sa se termine si nu o sa.mi afiseze punctajul final niciodata, dar dc. rulati local se va vedea ca imi iau punctajul pe primele 8.
+    In Tema2.java: Imi retin in String orders_in si String products_in caile celor 2 fisiere de intrare iar in int P nr. de thread-uri, date primite din linia de comanda.
+Dupa creez cele P thread-uri si  citesc din fisierul ".../orders.txt" printr-un while linie cu linie prin var. BufferedReader reader, astfel fiecare thread din cele P sa primeasca cate o comanda 
+pe care sa o prelucreze prin intermediul clasei Myrunnable(order). Dupa fac join la thread-uril trimise in executie, ca pe urma sa primeasca fiecare thread alta linie(comanda).
+    In MyRunnable.java: Din comanda primita sub forma stringul-ui order imi obin id-ul comenzii si nr. de produse in var. String id_comanda si int nr_produse. Ma folosesc de clasa Produse pt. a
+retirne in ea nr de produse pe care il am de trimis catre destinatie pt. un produs.
+    Dupa exact ca in while-ul din Tema2.java prelucrez produsele din fisierul ".../order_products.txt". Astfel pornesc alte P thread-uri care sa se ocupe de livrarea produselor din comanda order la
+destinatie. Fiecare thread de acest tip primeste cate o linie din fisierul scris mai sus si face verificarea daca produsul apartine comenzii order. Aceasta verificare are loc In clasa MyRunnable2,
+clasa folosite de thread pt. executie. Astfel fiecare thread de acest tip primeste numele comenzii(order), linia citita din "../order_products.txt", id-ul comenzii(id_comanda) si un obiect de tip 
+Produse: new Thread(new MyRunnable2(order_product, id_comanda, produs)). De asemenaea, daca Produse produs.nr_produse = 0, at. inseaman ca au fost livrate toate produsele din comanda => ca ma
+pot opri, ca sa nu mai trimi thread-uri degeaba in executie.
+    Apoi daca nr_produse = 0, nu mai are rost sa caut produsele din comanda in fisier, deoarece inseamna ca comanda e nula si se sare peste. Daca nu e, at. dupa ce cele P thread-uri de nivel 2 nu
+mai au nimic de prelucrat, se termina liniile din fisier, ceea ce inseamna ca au fost livrate toate produsele din comanda si at. scriu in fisierul de iesire "orders_out.txt", comanda initila + 
+adaugat la final ",shipped" prin bw.write(order_product+",shipped\n").
+    In MyRunnable2 imi scot id-ul comenzii din order product in var. String id_comanda2. Apoi verific daca corespund id-urile de la comnda cu cel de la produs, adica daca 
+id_comanda2.equals(id_comanda). Daca da, at. am gasit produsul ce trebuie  livrat pt. comanda respectiva. Astfel thread-ul de nivel 2 face acea actiune dummy de a scrie in fisierul de iesire
+"order_products_out.txt" linia dinainte + ",shipped" prin comanda bw.write(order+",shipped\n").
+    Scrierea in fisierele de iesire este incapsulata intr-un bloc syncronized(this){}.
+    
+
